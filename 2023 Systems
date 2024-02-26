@@ -1,0 +1,15 @@
+Communication Patterns of Payment System-Synchronous & Asynchronous  
+Synchronous= When a service sends request to another service and wait for response before proceeding further.  
+Asynchronous= When a service sends request to another service, the service does not wait for response, instead it runs the execution and falls for response at regular intervals or being notified about the response.  
+  
+DRAWBACKS of synchronous payment  
+1) Not tolerant to failures  
+2) Not tolerant to big latency  
+
+  In most cases, asynchronous pattern is used.
+
+
+  *Real time authorization from upstream is done using API.  
+  
+  
+
