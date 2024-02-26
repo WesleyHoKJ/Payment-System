@@ -6,7 +6,37 @@ DRAWBACKS of synchronous payment
 1) Not tolerant to failures  
 2) Not tolerant to big latency  
 
-  In most cases, asynchronous pattern is used.
+  In most cases, asynchronous pattern is used. It is tolerant to FAILURES AND LATENCIES.  
+
+To guarantee completion of transaction, we can use messaging queue like Apache Kafka. It helps to persist communication messages. 
+
+Sometimes, we may need to access data from third parties like search queries.  
+
+Since the users may keep failing to do the transaction, RETRY PARAMETER is used based on RETRY INTERVALS & NUMBER OF RETRIES.  
+Types of retry: Immediate Retry, Fixed Interval & Increment Interval.
+  
+TIMEOUT PATTERN:5s      
+WALLET SERVICE: 1s  
+  
+FRAUD CHECK SERVICE INTERNAL SERVER ERROR  
+SOLUTION:   
+1) if payment amount is small, just let the transaction proceed.  
+2) just cancel the request if the fallback persists, probably because the format does not match(which is often called POISON PILL ERROR). FOR that reason, the message should be queued in dead letter queue for further documentation. This let other normal request to be proceed.  
+  
+AVOID DUPLICATE PAYMENT-IDEMPOTENCY  
+idempotent key is used to added to http header. UUID are oftenly used as hidden idempotent key. UNIQUE KEY CONSTRAINT.  
+  
+DISTRIBUTING SYSTEMS  
+allows data to be replicated and stored. However, inconsistency logging can cause problem, so we need to aware of consistency level on what we read and write.  
+  
+ENCRYPTION  
+We can use software tools for data encryption besides doing software updates.  
+1) VPN at OSI's Network Layer to do encryption between device and network.  
+2) TLS protocol can be used at between presentation layer and session layer to provide confidentiality, data integrity and authenticaty between client and server.  
+3) HTTPs protocol can be used for encryption too.  
+
+DATA INTEGRITY  
+Access the database files and file systems and then generate CRYPTOGRAPIC CHECKSUM as baseline, then regularly we recalculate the checksum on same resources, if checksum is different, we generate ALERT. however, this is RESOURCE INTENSIVE. Should be used efficiently.  
 
 
   *Real time authorization from upstream is done using API.  
